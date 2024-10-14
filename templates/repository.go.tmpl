@@ -1,0 +1,83 @@
+package {{.FeatureName}}
+
+import (
+	"context"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+// {{.FeatureNameCapitalized}}Repository defines the interface for data access methods.
+type {{.FeatureNameCapitalized}}Repository interface {
+	Delete(id string) error
+	Create(item *{{.FeatureNameCapitalized}}) error
+    GetAll() ([]*{{.FeatureNameCapitalized}}, error)
+	GetByID(id string) (*{{.FeatureNameCapitalized}}, error)
+	Update(id string, item *{{.FeatureNameCapitalized}}) error
+}
+
+// {{.FeatureNameCapitalized}}RepositoryImpl implements the {{.FeatureNameCapitalized}}Repository interface.
+type {{.FeatureNameCapitalized}}RepositoryImpl struct {
+	collection Collection // A MongoDB collection (can be mocked for tests)
+}
+
+// NewRepository creates a new Repository with dependency injection.
+func NewRepository(collection Collection) {{.FeatureNameCapitalized}}Repository {
+	return &RepositoryImpl{
+		collection: collection,
+	}
+}
+
+func (r *RepositoryImpl) Delete(id string) error {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+
+    ctx := context.TODO()
+    filter := bson.M{"_id": objID}
+	_, err = r.collection.DeleteOne(ctx, filter)
+	return err
+}
+
+func (r *RepositoryImpl) Create(item *{{.FeatureNameCapitalized}}) error {
+	_, err := r.collection.InsertOne(context.TODO(), item)
+	return err
+}
+
+func (r *RepositoryImpl) GetAll() ([]*{{.FeatureNameCapitalized}}, error) {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+
+    filter := bson.M{}
+    ctx := context.TODO()
+	_, err = r.collection.DeleteOne(ctx, filter)
+	return err
+}
+
+func (r *RepositoryImpl) GetByID(id string) (*{{.FeatureNameCapitalized}}, error) {
+	var item {{.FeatureNameCapitalized}}
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return &item, err
+	}
+
+    ctx := context.TODO()
+    filter := bson.M{"_id": objID}
+	err = r.collection.FindOne(ctx, filter).Decode(&item)
+	return &item, err
+}
+
+func (r *RepositoryImpl) Update(id string, item *{{.FeatureNameCapitalized}}) error {
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+
+    ctx := context.TODO()
+    data := bson.M{"$set": item}
+    filter := bson.M{"_id": objID}
+	_, err = r.collection.UpdateOne(ctx, filter, data)
+	return err
+}

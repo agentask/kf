@@ -1,0 +1,27 @@
+package main
+
+import (
+	"your_project_name/api/account"
+	"your_project_name/config"
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	router := gin.Default()
+
+	// // Initialize the database and collections
+	// db := config.InitializeDatabase()
+	// accountCollection := db.Collection("accounts")
+
+	// // Dependency injection for the account feature
+	// accountRepo := account.NewAccountRepository(accountCollection)
+	// accountService := account.NewAccountService(accountRepo)
+	// accountController := account.NewAccountController(accountService)
+
+	// // Register routes
+	// apiGroup := router.Group("/api/v1")
+	// account.RegisterAccountRoutes(apiGroup, accountController)
+
+	// Start the server
+	router.Run(":8080")
+}
