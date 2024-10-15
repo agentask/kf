@@ -1,0 +1,24 @@
+package config
+
+// Config settings for the {{.AppName}} application
+
+type AppConfig struct {
+    // Address the server listens on
+    Addr string
+    // App name
+    Name string
+}
+
+func NewAppConfig() *AppConfig {
+    return &AppConfig{
+        Addr: ":8080",
+        Name: "{{.AppName}}",
+    }
+}
+
+func InitializeDatabase() any {
+    // Initialize the database and collections
+    // db := config.InitializeDatabase()
+    // accountCollection := db.Collection("accounts")
+    return nil
+}

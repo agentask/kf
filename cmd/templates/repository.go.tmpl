@@ -1,4 +1,4 @@
-package {{.FeatureName}}
+package {{.FeatureName}}s
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// {{.FeatureNameCapitalized}}Repository defines the interface for data access methods.
-type {{.FeatureNameCapitalized}}Repository interface {
+// Repository defines the interface for data access methods.
+type Repository interface {
 	Delete(id string) error
 	Create(item *{{.FeatureNameCapitalized}}) error
     GetAll() ([]*{{.FeatureNameCapitalized}}, error)
@@ -15,13 +15,13 @@ type {{.FeatureNameCapitalized}}Repository interface {
 	Update(id string, item *{{.FeatureNameCapitalized}}) error
 }
 
-// {{.FeatureNameCapitalized}}RepositoryImpl implements the {{.FeatureNameCapitalized}}Repository interface.
-type {{.FeatureNameCapitalized}}RepositoryImpl struct {
+// RepositoryImpl implements the Repository interface.
+type RepositoryImpl struct {
 	collection Collection // A MongoDB collection (can be mocked for tests)
 }
 
 // NewRepository creates a new Repository with dependency injection.
-func NewRepository(collection Collection) {{.FeatureNameCapitalized}}Repository {
+func NewRepository(collection Collection) Repository {
 	return &RepositoryImpl{
 		collection: collection,
 	}
@@ -45,15 +45,10 @@ func (r *RepositoryImpl) Create(item *{{.FeatureNameCapitalized}}) error {
 }
 
 func (r *RepositoryImpl) GetAll() ([]*{{.FeatureNameCapitalized}}, error) {
-	objID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return err
-	}
-
     filter := bson.M{}
     ctx := context.TODO()
-	_, err = r.collection.DeleteOne(ctx, filter)
-	return err
+	_, err := r.collection.DeleteOne(ctx, filter)
+	return err, nil
 }
 
 func (r *RepositoryImpl) GetByID(id string) (*{{.FeatureNameCapitalized}}, error) {

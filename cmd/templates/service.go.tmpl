@@ -1,0 +1,43 @@
+package {{.FeatureName}}s
+
+import (
+	"context"
+)
+
+type Service interface {
+    Delete(id string) error
+    Create(item *{{.FeatureNameCapitalized}}) error
+    GetAll() ([]*{{.FeatureNameCapitalized}}, error)
+    GetByID(id string) (*{{.FeatureNameCapitalized}}, error)
+    Update(id string, item *{{.FeatureNameCapitalized}}) error
+}
+
+// ServiceImpl implements Service interface.
+type ServiceImpl struct {
+	repo Repository
+}
+
+// NewService creates a new Service with dependency injection.
+func NewService(repo Repository) Service {
+	return &ServiceImpl{repo: repo}
+}
+
+func (s *ServiceImpl) Delete(id string) error {
+	return s.repo.Delete(id)
+}
+
+func (s *ServiceImpl) Create(item *{{.FeatureNameCapitalized}}) error {
+	return s.repo.Create(item)
+}
+
+func (s *ServiceImpl) GetAll() ([]*{{.FeatureNameCapitalized}}, error) {
+	return s.repo.GetAll()
+}
+
+func (s *ServiceImpl) GetByID(id string) (*{{.FeatureNameCapitalized}}, error) {
+	return s.repo.GetByID(id)
+}
+
+func (s *ServiceImpl) Update(id string, item *{{.FeatureNameCapitalized}}) error {
+	return s.repo.Update(id, item)
+}

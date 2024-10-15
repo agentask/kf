@@ -1,16 +1,16 @@
-package {{.FeatureName}}
+package {{.FeatureName}}s
 
 import (
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterRoutes(router *gin.RouterGroup, ctrl *Controller) {
-	routes := router.Group("/{{.Package}}")
+	routes := router.Group("/{{.FeatureName}}")
 	{
 		routes.GET("/", ctrl.GetAll)
 		routes.POST("/", ctrl.Create)
+		routes.Put("/:id", ctrl.Update)
 		routes.GET("/:id", ctrl.GetByID)
 		routes.Delete("/:id", ctrl.Delete)
-		routes.Put("/:id", ctrl.GetUpdate)
 	}
 }

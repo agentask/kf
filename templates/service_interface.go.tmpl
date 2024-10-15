@@ -1,9 +1,0 @@
-package {{.FeatureName}}
-
-type {{.FeatureNameCapitalized}}Service interface {
-    Delete(id string) error
-    Create(item *{{.FeatureNameCapitalized}}) error
-    GetAll() ([]*{{.FeatureNameCapitalized}}, error)
-    GetByID(id string) (*{{.FeatureNameCapitalized}}, error)
-    Update(id string, item *{{.FeatureNameCapitalized}}) error
-}

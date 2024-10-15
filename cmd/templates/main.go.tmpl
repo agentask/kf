@@ -1,16 +1,18 @@
 package main
 
 import (
-	"your_project_name/api/account"
-	"your_project_name/config"
+	"{{.AppName}}/api/account"
+	"{{.AppName}}/config"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
 
-	// // Initialize the database and collections
-	// db := config.InitializeDatabase()
+	// Initialize the database and collections
+	cfg := config.NewAppConfig()
+	db := config.InitializeDatabase()
+
 	// accountCollection := db.Collection("accounts")
 
 	// // Dependency injection for the account feature
@@ -23,5 +25,5 @@ func main() {
 	// account.RegisterAccountRoutes(apiGroup, accountController)
 
 	// Start the server
-	router.Run(":8080")
+	router.Run(cfg.Addr)
 }
